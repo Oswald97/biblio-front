@@ -1,4 +1,5 @@
 import { Book, BookOpenText, LucideIcon, User } from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
 
 type NavProps = {
   id: string;
@@ -32,10 +33,19 @@ const NavMenu = () => {
         <nav>
           <ul>
             {menus.map((menu) => (
-              <li key={menu.id} className="flex gap-4 p-3 items-center"> 
-                <menu.icon className="size-4" />
-                <span>{menu.name}</span>
-               </li>
+              <li key={menu.id}>
+                <NavLink
+                  to={menu.to}
+                  className={({ isActive }) =>
+                    `flex gap-4 p-3 items-center hover:text-primary hover:bg-muted ${
+                      isActive ? "text-primary bg-muted" : undefined
+                    }`
+                  }
+                >
+                  <menu.icon className="size-4" />
+                  <span>{menu.name}</span>
+                </NavLink>
+              </li>
             ))}
           </ul>
         </nav>

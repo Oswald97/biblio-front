@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import { Button } from "./components/ui/button";
 import { Header, NavMenu } from "./layouts";
 
@@ -9,8 +10,8 @@ function App() {
       </div>
       <div className="flex flex-col">
         <Header />
-        <main className="flex-1">
-          {/* The app content goes here */}
+        <main className="flex-1 p-4">
+          <Outlet />
         </main>
       </div>
     </div>
