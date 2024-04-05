@@ -8,8 +8,8 @@ type Adherent = {
     rue: string;
     ville: string;
     codePostal: string;
-    numeroTelephone: string;
+    numeroTelephone: string | null;
   };
-  dateInscription?: string;
+  dateInscription?: Date;
   nombreEmpruntEnCours?: number;
 }

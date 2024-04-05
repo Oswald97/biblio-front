@@ -1,0 +1,1 @@
+export { adherentSchema as adherentSchema} from "./adherent.schema"
