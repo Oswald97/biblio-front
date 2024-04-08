@@ -6,12 +6,20 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { toogleSheet } from "@/store/slices/adherent.slice";
 import { Plus } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 import AdherentForm from "./AdherentForm";
 
 const AdherentAdd = () => {
+  const { sheetState } = useSelector((state: stateType) => state.adherent);
+  
+  const dispatch = useDispatch();
+  const toogle = () => {
+    dispatch(toogleSheet());
+  };
   return (
-    <Sheet>
+    <Sheet open={sheetState} onOpenChange={toogle}>
       <SheetTrigger asChild>
         <Button>
           Ajouter un Adherent

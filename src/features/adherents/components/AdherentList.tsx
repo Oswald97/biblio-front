@@ -5,19 +5,20 @@ import AdherentAdd from "./AdherentAdd";
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from "react";
+import { setAdherents } from "@/store/slices/adherent.slice";
 
 const AdherentList = () => {
   const { isLoading, error, data: adherents } = useFetch(ADHERENT_URL);
 
   const dispatch = useDispatch()
-  const adherentList = useSelector((state: adherentState) => {
-    return state.adherentList
+  const {adherentList} = useSelector((state: stateType) => {    
+    return state.adherent
     
   })
 
   useEffect(() => {
     if(adherents.length > 0) 
-      dispatch({ type: ADHERENT_ACTIONS.SET, payload: adherents })
+      dispatch(setAdherents(adherents))
   }, [adherents]);
 
 

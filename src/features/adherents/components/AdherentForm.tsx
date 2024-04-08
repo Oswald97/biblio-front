@@ -17,6 +17,7 @@ import { ADHERENT_ACTIONS, ADHERENT_URL } from "@/utils/_constants";
 import { Loader } from "lucide-react";
 import useMutation from "@/hooks/useMutation";
 import { useDispatch } from "react-redux";
+import { addAdherent, toogleSheet } from "@/store/slices/adherent.slice";
 
 export function AdherentForm({
   adherent,
@@ -53,7 +54,8 @@ const dispatch = useDispatch()
   }
 
   const onSuccess = (adherentCreated: Adherent) => {
-    dispatch({type: ADHERENT_ACTIONS.ADD, payload: adherentCreated})
+    dispatch(addAdherent(adherentCreated))
+    dispatch(toogleSheet())
   }
 
   return (

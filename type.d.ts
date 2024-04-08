@@ -16,8 +16,13 @@ type Adherent = {
 
 type adherentState = {
   adherentList: Adherent[];
+  sheetState: boolean
 };
 type actionType = {
   type: string;
   payload: any;
 };
+
+type stateType = {
+  adherent: adherentState
+}
