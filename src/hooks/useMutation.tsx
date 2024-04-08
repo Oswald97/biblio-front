@@ -20,7 +20,7 @@ const useMutation = () => {
       setIsLoading(false);
     }
   }
-  const handleMutation = async (
+  const handleMutation = (
     route: string,
     option: any,
     callbackFn: any

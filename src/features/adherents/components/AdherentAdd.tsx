@@ -9,7 +9,7 @@ import {
 import { Plus } from "lucide-react";
 import AdherentForm from "./AdherentForm";
 
-const AdherentAdd = ({setAdherent}: {setAdherent: any}) => {
+const AdherentAdd = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -23,7 +23,7 @@ const AdherentAdd = ({setAdherent}: {setAdherent: any}) => {
           <SheetTitle>Nouvel Adhérent</SheetTitle>
         </SheetHeader>
         <div className="overflow-y-auto flex-1 px-4">
-          <AdherentForm setAdherent={setAdherent} />
+          <AdherentForm />
         </div>
 
         {/* <SheetFooter>

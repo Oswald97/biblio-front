@@ -13,16 +13,15 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PhoneInput } from "@/components/ui/input-phone";
 import useCreateForm from "@/hooks/useCreateForm";
 import { z } from "zod";
-import { ADHERENT_URL } from "@/utils/_constants";
+import { ADHERENT_ACTIONS, ADHERENT_URL } from "@/utils/_constants";
 import { Loader } from "lucide-react";
 import useMutation from "@/hooks/useMutation";
+import { useDispatch } from "react-redux";
 
 export function AdherentForm({
   adherent,
-  setAdherent,
 }: {
   adherent?: Adherent;
-  setAdherent: any;
 }) {
   const initialValue: Adherent = adherent || {
     nom: "",
@@ -38,10 +37,11 @@ export function AdherentForm({
     dateInscription: new Date(),
   };
   const form = useCreateForm(adherentSchema, initialValue);
-
   const { isLoading, error, handleMutation } = useMutation();
 
-  const onSubmit = async (data: z.infer<typeof adherentSchema>) => {
+const dispatch = useDispatch()
+
+  const onSubmit = (data: z.infer<typeof adherentSchema>) => {
     const option = {
       method: "POST",
       headers: {
@@ -53,10 +53,7 @@ export function AdherentForm({
   }
 
   const onSuccess = (adherentCreated: Adherent) => {
-    setAdherent((oldData: Adherent[]) => {
-      console.log(adherentCreated, "inside handleMutation");
-      return [...oldData, adherentCreated];
-    });
+    dispatch({type: ADHERENT_ACTIONS.ADD, payload: adherentCreated})
   }
 
   return (

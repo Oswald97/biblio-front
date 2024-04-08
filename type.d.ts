@@ -13,3 +13,11 @@ type Adherent = {
   dateInscription?: Date;
   nombreEmpruntEnCours?: number;
 }
+
+type adherentState = {
+  adherentList: Adherent[];
+};
+type actionType = {
+  type: string;
+  payload: any;
+};
