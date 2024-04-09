@@ -12,18 +12,16 @@ import { adherentSchema } from "../schema";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PhoneInput } from "@/components/ui/input-phone";
 import useCreateForm from "@/hooks/useCreateForm";
-import { z } from "zod";
-import { ADHERENT_ACTIONS, ADHERENT_URL } from "@/utils/_constants";
 import { Loader } from "lucide-react";
-import useMutation from "@/hooks/useMutation";
 import { useDispatch } from "react-redux";
-import { addAdherent, toogleSheet } from "@/store/slices/adherent.slice";
+import { toogleSheet } from "@/store/slices/adherent.slice";
+import { useCreateAdherentMutation } from "../services";
+import { toast } from "sonner";
 
-export function AdherentForm({
-  adherent,
-}: {
-  adherent?: Adherent;
-}) {
+import { useNavigate } from "react-router-dom";
+
+export function AdherentForm({ adherent }: { adherent?: Adherent }) {
+  const navigate = useNavigate()
   const initialValue: Adherent = adherent || {
     nom: "",
     pseudo: "",
@@ -38,26 +36,24 @@ export function AdherentForm({
     dateInscription: new Date(),
   };
   const form = useCreateForm(adherentSchema, initialValue);
-  const { isLoading, error, handleMutation } = useMutation();
 
-const dispatch = useDispatch()
+  // const { isLoading, handleMutation } = useMutation();
 
-  const onSubmit = (data: z.infer<typeof adherentSchema>) => {
-    const option = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  const [createAdherent, { isLoading }] = useCreateAdherentMutation();
+
+  const dispatch = useDispatch();
+
+  const onSubmit = (data: Adherent) => {
+    createAdherent(data);
+    dispatch(toogleSheet());
+    toast("Succès", {
+      description: `Vous avez créer avec succès l'adhérent ${data.nom} ${data.prenoms}`,
+      action: {
+        label: "Voir",
+        onClick: () => navigate(`/adherent/1`),
       },
-      body: JSON.stringify(data),
-    };
-    handleMutation(ADHERENT_URL, option, onSuccess)
-  }
-
-  const onSuccess = (adherentCreated: Adherent) => {
-    dispatch(addAdherent(adherentCreated))
-    dispatch(toogleSheet())
-  }
-
+    });
+  };
   return (
     <>
       <Form {...form}>

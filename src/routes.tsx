@@ -8,7 +8,11 @@ export const router = createBrowserRouter([
     element: <App />,
     errorElement: <h1>Custom Error Page 💔</h1>,
     children: [
-      adherentRoutes
+      adherentRoutes,
+      {
+        path: "oeuvres",
+        element: <h1>Oeuvres</h1>
+      }
     ],
   },
   {
