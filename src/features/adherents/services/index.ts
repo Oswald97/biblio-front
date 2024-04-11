@@ -1,10 +1,18 @@
 import { ADHERENT_URL } from "@/utils/_constants";
+import { getAccessToken } from "@/utils/_helper";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const adherentApi = createApi({
   reducerPath: "api/adherents",
   baseQuery: fetchBaseQuery({
     baseUrl: ADHERENT_URL,
+    prepareHeaders: (headers) => {
+      const access_token = getAccessToken()
+      if(access_token) {
+        headers.set("Authorization", `Bearer ${access_token}`);
+      }
+      return headers
+    }
   }),
   tagTypes: ["adherent"],
 

@@ -12,24 +12,29 @@ import useCreateForm from "@/hooks/useCreateForm";
 import { LS_TOKEN_KEY } from "@/utils/_constants";
 import { BookOpenText } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginSchema } from "../schema/login.schema";
-import { useLoginUserMutation } from "../services";
+import { registerSchema } from "../schema";
+import { useRegisterUserMutation } from "../services";
 
-const Login = () => {
-  const form = useCreateForm(loginSchema, {
+const Register = () => {
+  const form = useCreateForm(registerSchema, {
     email: "",
+    lastname: "",
+    firstname: "",
+    role: "USER",
     password: "",
   });
 
-  const [logUser, { isLoading }] = useLoginUserMutation();
   const navigate = useNavigate()
-  const onSubmit = (credentials: LoginType) => {
-    logUser(credentials).then((res:any) => {
-      if (res.error) {
-       // TODO: Traiter l'erreur
-       return
+
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
+  const onSubmit = (user: RegisterType) => {
+    registerUser(user).then((response: any) => {
+      if (response.error) {
+        // Traiter l'erreur
+        return;
       }
-      localStorage.setItem(LS_TOKEN_KEY, JSON.stringify(res?.data));
+
+      localStorage.setItem(LS_TOKEN_KEY, JSON.stringify(response?.data));
       navigate("/adherents");
     });
   };
@@ -37,7 +42,7 @@ const Login = () => {
     <div className="w-full lg:grid lg:grid-cols-2 min-h-screen">
       <div className="flex items-center justify-center">
         <div className="mx-auto grid w-350px gap-6">
-          <div className="grid gap-2 text-center mb-4">
+          <div className="grid gap-2 text-center mb-8">
             <div className="flex gap-3 items-center justify-center">
               <BookOpenText className="size-6" />
               <span className="text-3xl font-bold">Biblio WF</span>
@@ -46,6 +51,32 @@ const Login = () => {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-6">
+              <FormField
+                control={form.control}
+                name="lastname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-slate-900">Nom</FormLabel>
+                    <FormControl>
+                      <Input className="w-full" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="firstname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-slate-900">Prénoms</FormLabel>
+                    <FormControl>
+                      <Input className="w-full" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -83,10 +114,10 @@ const Login = () => {
                 Se connecter
               </Button>
               <div className="mt-4 text-center text-sm">
-                Vous n'avez pas de compte
-                <Link to="/auth/register" className="underline">
+                Vous avez déjà un compte?
+                <Link to="/auth/login" className="underline">
                   {" "}
-                  S'inscrire
+                  Se connecter
                 </Link>
               </div>
             </form>
@@ -105,4 +136,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
