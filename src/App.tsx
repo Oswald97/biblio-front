@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { Button } from "./components/ui/button";
 import { Header, NavMenu } from "./layouts";
+import { Toaster } from "@/components/ui/sonner"
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
         <Header />
         <main className="flex-1 p-4">
           <Outlet />
+          <Toaster />
         </main>
       </div>
     </div>
